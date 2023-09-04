@@ -1,0 +1,37 @@
+import math
+
+# Defina a função da equação (c)
+def f(x):
+    return 1 + 5*x - 6*x**3 - math.exp(2*x)
+
+# Defina a derivada da função (c)
+def df(x):
+    return 5 - 18*x**2 - 2*math.exp(2*x)
+
+# Método de Newton
+def newton(f, df, x0, epsilon, max_iter):
+    x = x0
+    for i in range(max_iter):
+        x_anterior = x
+        x = x - f(x_anterior) / df(x_anterior)
+        erro = abs(x - x_anterior)
+        if erro < epsilon:
+            return x, i
+    return None, max_iter
+
+# Parâmetros
+x0 = 1.0  # Valor inicial
+epsilon = 1e-7  # Precisão desejada
+max_iter = 100  # Número máximo de iterações
+
+# Resolvendo a equação (c) com o Método de Newton
+raiz, iteracoes = newton(f, df, x0, epsilon, max_iter)
+
+# Exibindo resultado
+if raiz is not None:
+    print("Método de Newton:")
+    print(f"Raiz (Newton): {raiz}, Iterações: {iteracoes}")
+else:
+    print("O método de Newton não convergiu para uma raiz com a precisão desejada.")
+
+    
