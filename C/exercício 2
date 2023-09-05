@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <math.h>
+
+// Defina a função da equação
+double f(double x) {
+    return exp(x - 2) + pow(x, 3) - x;
+}
+
+// Defina a derivada da função
+double df(double x) {
+    return exp(x - 2) + 3 * pow(x, 2) - 1;
+}
+
+// Método de Newton
+double newton(double x0, double epsilon, int max_iter) {
+    double x = x0;
+    double erro;
+    
+    for (int i = 0; i < max_iter; i++) {
+        double x_anterior = x;
+        x = x - f(x_anterior) / df(x_anterior);
+        erro = fabs(x - x_anterior);
+        
+        if (erro < epsilon) {
+            printf("Resultado da última iteração (Iteração %d): x = %lf\n", i + 1, x);
+            return x;
+        }
+    }
+
+    printf("Resultado da última iteração (Iteração %d): x = %lf\n", max_iter, x);
+    return x;
+}
+
+int main() {
+    double x0 = 2.0;      // Valor inicial
+    double epsilon = 1e-7;  // Precisão desejada
+    int max_iter = 100;    // Número máximo de iterações
+
+    newton(x0, epsilon, max_iter);
+
+    return 0;
+}
