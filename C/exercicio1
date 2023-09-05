@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <math.h>
+
+// Defina a função da equação (a)
+double f(double x) {
+    return 2 * pow(x, 3) - 6 * x - 1;
+}
+
+// Defina a derivada da função (a)
+double df(double x) {
+    return 6 * pow(x, 2) - 6;
+}
+
+int main() {
+    double x0 = 2.0; // Valor inicial
+    double epsilon = 1e-7; // Precisão desejada
+    int max_iter = 4; // Número máximo de iterações
+
+    double x = x0;
+    for (int i = 0; i < max_iter; i++) {
+        double x_anterior = x;
+        x = x - f(x_anterior) / df(x_anterior);
+        printf("Iteração %d: x = %lf\n", i + 1, x);
+    }
+
+    // Exibindo resultado final
+    if (fabs(f(x)) < epsilon) {
+        printf("Método de Newton:\n");
+        printf("Raiz (Newton): %lf\n", x);
+    } else {
+        printf("Não foi possível encontrar uma raiz dentro do limite de iterações.\n");
+    }
+
+    return 0;
+}
