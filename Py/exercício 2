@@ -8,25 +8,30 @@ def f(x):
 def df(x):
     return math.exp(x - 2) + 3 * x**2 - 1
 
-# Método de Newton
-def newton(f, df, x0, epsilon, max_iter):
+# Método de Newton com registro de todas as iterações
+def newton_verbose(f, df, x0, epsilon, max_iter):
     x = x0
+    resultados = []
     for i in range(max_iter):
         x_anterior = x
         x = x - f(x_anterior) / df(x_anterior)
         erro = abs(x - x_anterior)
+        resultados.append((x, erro))
         if erro < epsilon:
-            return x, i
-    return None, max_iter
+            return resultados
+    return resultados
 
 # Parâmetros
 x0 = 2.0  # Valor inicial
 epsilon = 1e-7  # Precisão desejada
 max_iter = 100  # Número máximo de iterações
 
-# Resolvendo a equação com o Método de Newton
-raiz_newton, iteracoes_newton = newton(f, df, x0, epsilon, max_iter)
+# Resolvendo a equação com o Método de Newton e registrando todas as iterações
+resultados_newton = newton_verbose(f, df, x0, epsilon, max_iter)
 
-# Exibindo resultado
-print("Método de Newton:")
-print(f"Raiz (Newton): {raiz_newton}, Iterações: {iteracoes_newton}")
+# Pegando o último resultado
+ultimo_resultado = resultados_newton[-1]
+
+# Exibindo o resultado da última iteração
+print("Resultado da última iteração do Método de Newton:")
+print(f"Iteração {len(resultados_newton)}: Raiz = {ultimo_resultado[0]}")
