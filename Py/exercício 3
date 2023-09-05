@@ -33,5 +33,3 @@ if raiz is not None:
     print(f"Raiz (Newton): {raiz}, Iterações: {iteracoes}")
 else:
     print("O método de Newton não convergiu para uma raiz com a precisão desejada.")
-
-    
