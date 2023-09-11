@@ -1,9 +1,13 @@
 import math
- 
-# Defina a função g(x) para o Método do Ponto Fixo
-def g(x):
-    return math.exp(x - 2) + x**3
- 
+
+# Defina a função da equação (b)
+def f(x):
+    return math.exp(x - 2) + x**3 - x
+
+# Defina a derivada da função (b)
+def df(x):
+    return math.exp(x - 2) + 3 * x**2 - 1
+
 # Método do Ponto Fixo
 def ponto_fixo(g, x0, epsilon, max_iter):
     x = x0
@@ -14,18 +18,47 @@ def ponto_fixo(g, x0, epsilon, max_iter):
         if erro < epsilon:
             return x, i
     return None, max_iter
- 
+
+# Funções de iteração para a equação (b)
+def g1(x):
+    return x - f(x)
+
+def g2(x):
+    return x - f(x) / df(x)
+
+def g3(x):
+    return x - 0.5 * f(x) / df(x)
+
+# Método de Newton
+def newton(f, df, x0, epsilon, max_iter):
+    x = x0
+    for i in range(max_iter):
+        x_anterior = x
+        x = x - f(x_anterior) / df(x_anterior)
+        erro = abs(x - x_anterior)
+        if erro < epsilon:
+            return x, i
+    return None, max_iter
+
 # Parâmetros
-x0 = 0.5  # Valor inicial
+x0 = 2.0  # Valor inicial
 epsilon = 1e-7  # Precisão desejada
 max_iter = 100  # Número máximo de iterações
- 
-# Resolvendo a equação com o Método do Ponto Fixo
-raiz, iteracoes = ponto_fixo(g, x0, epsilon, max_iter)
- 
-# Exibindo resultado
-if raiz is not None:
-    print("Método do Ponto Fixo:")
-    print(f"Raiz (Ponto Fixo): {raiz}, Iterações: {iteracoes}")
-else:
-    print("O Método do Ponto Fixo não convergiu para uma raiz com a precisão desejada.")
+
+# Resolvendo a equação (b) com Ponto Fixo
+raiz1, iteracoes1 = ponto_fixo(g1, x0, epsilon, max_iter)
+raiz2, iteracoes2 = ponto_fixo(g2, x0, epsilon, max_iter)
+raiz3, iteracoes3 = ponto_fixo(g3, x0, epsilon, max_iter)
+
+# Exibindo resultados do Ponto Fixo
+print("Método do Ponto Fixo:")
+print(f"Raiz 1: {raiz1}, Iterações: {iteracoes1}")
+print(f"Raiz 2: {raiz2}, Iterações: {iteracoes2}")
+print(f"Raiz 3: {raiz3}, Iterações: {iteracoes3}")
+
+# Resolvendo a equação (b) com o Método de Newton
+raiz_newton, iteracoes_newton = newton(f, df, x0, epsilon, max_iter)
+
+# Exibindo resultado do Método de Newton
+print("\nMétodo de Newton:")
+print(f"Raiz (Newton): {raiz_newton}, Iterações: {iteracoes_newton}")
