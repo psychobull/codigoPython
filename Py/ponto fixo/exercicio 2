@@ -29,3 +29,4 @@ if raiz is not None:
     print(f"Raiz (Ponto Fixo): {raiz}, Iterações: {iteracoes}")
 else:
     print("O Método do Ponto Fixo não convergiu para uma raiz com a precisão desejada.")
+
