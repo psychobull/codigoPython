@@ -4,11 +4,11 @@ import math
 def f(x):
     return math.exp(x - 2) + x**3 - x
 
-# Função de iteração para o método do ponto fixo
+# Função de iteração para o Método do Ponto Fixo
 def g(x):
-    return x - f(x) / (math.exp(x - 2) + 3 * x**2 - 1)
+    return x - 0.1 * f(x)
 
-# Método do ponto fixo
+# Método do Ponto Fixo
 def ponto_fixo(g, x0, epsilon, max_iter):
     x = x0
     for i in range(max_iter):
@@ -21,9 +21,9 @@ def ponto_fixo(g, x0, epsilon, max_iter):
 
 def main():
     # Parâmetros
-    x0 = 1.0  # Valor inicial
+    x0 = 0.7  # Valor inicial próximo da realidade
     epsilon = 1e-10  # Precisão desejada
-    max_iter = 100  # Número máximo de iterações
+    max_iter = 1000  # Número máximo de iterações
 
     # Resolvendo a equação com o Método do Ponto Fixo
     raiz, iteracoes = ponto_fixo(g, x0, epsilon, max_iter)
