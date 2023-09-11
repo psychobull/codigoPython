@@ -1,37 +1,31 @@
 import math
-
-# Defina a função da equação
-def f(x):
-    return math.exp(x - 2) + x**3 - x
-
-# Defina a derivada da função
-def df(x):
-    return math.exp(x - 2) + 3 * x**2 - 1
-
-# Método de Newton com registro de todas as iterações
-def newton_verbose(f, df, x0, epsilon, max_iter):
+ 
+# Defina a função g(x) para o Método do Ponto Fixo
+def g(x):
+    return math.exp(x - 2) + x**3
+ 
+# Método do Ponto Fixo
+def ponto_fixo(g, x0, epsilon, max_iter):
     x = x0
-    resultados = []
     for i in range(max_iter):
         x_anterior = x
-        x = x - f(x_anterior) / df(x_anterior)
+        x = g(x_anterior)
         erro = abs(x - x_anterior)
-        resultados.append((x, erro))
         if erro < epsilon:
-            return resultados
-    return resultados
-
+            return x, i
+    return None, max_iter
+ 
 # Parâmetros
-x0 = 2.0  # Valor inicial
+x0 = 0.5  # Valor inicial
 epsilon = 1e-7  # Precisão desejada
 max_iter = 100  # Número máximo de iterações
-
-# Resolvendo a equação com o Método de Newton e registrando todas as iterações
-resultados_newton = newton_verbose(f, df, x0, epsilon, max_iter)
-
-# Pegando o último resultado
-ultimo_resultado = resultados_newton[-1]
-
-# Exibindo o resultado da última iteração
-print("Resultado da última iteração do Método de Newton:")
-print(f"Iteração {len(resultados_newton)}: Raiz = {ultimo_resultado[0]}")
+ 
+# Resolvendo a equação com o Método do Ponto Fixo
+raiz, iteracoes = ponto_fixo(g, x0, epsilon, max_iter)
+ 
+# Exibindo resultado
+if raiz is not None:
+    print("Método do Ponto Fixo:")
+    print(f"Raiz (Ponto Fixo): {raiz}, Iterações: {iteracoes}")
+else:
+    print("O Método do Ponto Fixo não convergiu para uma raiz com a precisão desejada.")
