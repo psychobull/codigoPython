@@ -1,0 +1,39 @@
+import math
+
+# Defina a função da equação (c)
+def f(x):
+    return 1 + 5 * x - 6 * x**3 - math.exp(2 * x)
+
+# Defina a derivada da função (c)
+def df(x):
+    return 5 - 18 * x**2 - 2 * math.exp(2 * x)
+
+# Função de iteração alternativa para o método do ponto fixo
+def g(x):
+    return x - (f(x) / df(x))  # Usando f(x) / df(x) como fator de relaxamento
+
+# Método do Ponto Fixo
+def ponto_fixo(g, x0, epsilon, max_iter):
+    x = x0
+    for i in range(max_iter):
+        x_anterior = x
+        x = g(x_anterior)
+        erro = abs(x - x_anterior)
+        if erro < epsilon:
+            return x, i
+    return None, max_iter
+
+# Parâmetros
+x0 = 1.0  # Valor inicial
+epsilon = 1e-7  # Precisão desejada
+max_iter = 100  # Número máximo de iterações
+
+# Resolvendo a equação (c) com o Método do Ponto Fixo
+raiz, iteracoes = ponto_fixo(g, x0, epsilon, max_iter)
+
+# Exibindo resultado
+if raiz is not None:
+    print("Método do Ponto Fixo:")
+    print(f"Raiz (Ponto Fixo): {raiz}, Iterações: {iteracoes}")
+else:
+    print("O método do Ponto Fixo não convergiu para uma raiz com a precisão desejada.")
