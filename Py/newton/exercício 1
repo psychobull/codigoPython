@@ -1,39 +1,18 @@
 import math
-
 # Defina a função da equação (a)
 def f(x):
     return 2 * x**3 - 6 * x - 1
-
 # Defina a derivada da função (a)
 def df(x):
     return 6 * x**2 - 6
-
-# Método do Ponto Fixo
-def ponto_fixo(g, x0, epsilon, max_iter):
-    x = x0
-    for i in range(max_iter):
-        x_anterior = x
-        x = g(x_anterior)
-        erro = abs(x - x_anterior)
-        if erro < epsilon:
-            return x, i
-    return None, max_iter
-
-# Funções de iteração para a equação (a)
-def g1(x):
-    return (2 * x**3 - 1) / 6
-
-def g2(x):
-    return math.sqrt((6 * x + 1) / 2)
-
-def g3(x):
-    return x - f(x) / df(x)
 
 # Método de Newton
 def newton(f, df, x0, epsilon, max_iter):
     x = x0
     for i in range(max_iter):
         x_anterior = x
+        if df(x_anterior) == 0:
+            return None, i  # Evitar divisão por zero
         x = x - f(x_anterior) / df(x_anterior)
         erro = abs(x - x_anterior)
         if erro < epsilon:
@@ -41,24 +20,16 @@ def newton(f, df, x0, epsilon, max_iter):
     return None, max_iter
 
 # Parâmetros
-x0 = 1.0  # Valor inicial
+x0 = 2.0  # Valor inicial (alterado para um valor que não cause divisão por zero)
 epsilon = 1e-7  # Precisão desejada
 max_iter = 100  # Número máximo de iterações
-
-# Resolvendo a equação (a) com Ponto Fixo
-raiz1, iteracoes1 = ponto_fixo(g1, x0, epsilon, max_iter)
-raiz2, iteracoes2 = ponto_fixo(g2, x0, epsilon, max_iter)
-raiz3, iteracoes3 = ponto_fixo(g3, x0, epsilon, max_iter)
-
-# Exibindo resultados
-print("Método do Ponto Fixo:")
-print(f"Raiz 1: {raiz1}, Iterações: {iteracoes1}")
-print(f"Raiz 2: {raiz2}, Iterações: {iteracoes2}")
-print(f"Raiz 3: {raiz3}, Iterações: {iteracoes3}")
 
 # Resolvendo a equação (a) com o Método de Newton
 raiz_newton, iteracoes_newton = newton(f, df, x0, epsilon, max_iter)
 
 # Exibindo resultado do Método de Newton
-print("\nMétodo de Newton:")
-print(f"Raiz (Newton): {raiz_newton}, Iterações: {iteracoes_newton}")
+if raiz_newton is not None:
+    print("Método de Newton:")
+    print(f"Raiz (Newton): {raiz_newton}, Iterações: {iteracoes_newton}")
+else:
+    print("Não foi possível encontrar uma raiz dentro do limite de iterações.")
